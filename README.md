@@ -1,4 +1,4 @@
-macOS原生不支持RX6650XT和RX6950XT，通过SSDT仿冒的方式可以驱动
+## macOS原生不支持RX6650XT和RX6950XT，通过SSDT仿冒的方式可以驱动
 
 1.win下获取显卡PCI地址方法：
 
