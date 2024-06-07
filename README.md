@@ -15,3 +15,41 @@
 ![截屏2024-05-30 00 59 21](https://github.com/WT2072861996/RX6950XT-RX6650XT-Black-Apple-video-card-driver-tutorial-and-method/assets/113539098/9b54dcf8-d520-453f-b044-79369b01cfad)
 
 ### 画红线的位置修改成你在Windows下找到的显卡路径，然后把修改好的SSDT文件放进你的OpenCore或者Clover引导的ACPI文件夹里面然后启动它
+# ACPI SSDT 表
+
+这个SSDT表定义了一个特定的结构和一个设备专用的方法 (_DSM)。
+
+```asl
+DefinitionBlock ("", "SSDT", 2, "hack", "spoof1", 0x00000000)
+{
+    External (_SB_.<span style="color:red">PC00.PEG1.PEGP</span>, DeviceObj)
+
+    Device (_SB.<span style="color:red">PC00.PEG1.PEGP</span>.PBR0)
+    {
+        Name (_ADR, Zero)  // _ADR: Address
+        Device (GFX1)
+        {
+            Name (_ADR, Zero)  // _ADR: Address
+        }
+    }
+
+    Method (_SB.<span style="color:red">PC00.PEG1.PEGP</span>.PBR0.GFX1._DSM, 4, NotSerialized)  // _DSM: Device-Specific Method
+    {
+        If ((!Arg2 || !_OSI ("Darwin")))
+        {
+            Return (Buffer (One)
+            {
+                 0x03                                             // .
+            })
+        }
+
+        Return (Package (0x02)
+        {
+            "device-id", 
+            Buffer (0x04)
+            {
+                 0xBF, 0x73, 0x00, 0x00                           // .s..
+            }
+        })
+    }
+}
