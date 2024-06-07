@@ -11,6 +11,41 @@
 ![截屏2024-05-30 01 04 06](https://github.com/WT2072861996/RX6950XT-RX6650XT-Black-Apple-video-card-driver-tutorial-and-method/assets/113539098/bc46a1b5-ff55-4ea3-aa12-b65974e7e42c)
 
 ## 2.然后在 Mac下打开 [MaciASL](https://github.com/acidanthera/MaciASL)软件,用MaciASL.app打开我上面分享的SSDT文件修改如下位置
+# ACPI SSDT Table
+
+DefinitionBlock ("", "SSDT", 2, "hack", "spoof1", 0x00000000)
+{
+    External (_SB_.**<span style="color:red">PC00.PEG1.PEGP</span>**, DeviceObj)
+
+    Device (_SB.**<span style="color:red">PC00.PEG1.PEGP</span>**.PBR0)
+    {
+        Name (_ADR, Zero)  // _ADR: Address
+        Device (GFX1)
+        {
+            Name (_ADR, Zero)  // _ADR: Address
+        }
+    }
+
+    Method (_SB.**<span style="color:red">PC00.PEG1.PEGP</span>**.PBR0.GFX1._DSM, 4, NotSerialized)  // _DSM: Device-Specific Method
+    {
+        If ((!Arg2 || !_OSI ("Darwin")))
+        {
+            Return (Buffer (One)
+            {
+                 0x03                                             // .
+            })
+        }
+
+        Return (Package (0x02)
+        {
+            "device-id", 
+            Buffer (0x04)
+            {
+                 0xBF, 0x73, 0x00, 0x00                           // .s..
+            }
+        })
+    }
+}
 
 ![截屏2024-05-30 00 59 21](https://github.com/WT2072861996/RX6950XT-RX6650XT-Black-Apple-video-card-driver-tutorial-and-method/assets/113539098/9b54dcf8-d520-453f-b044-79369b01cfad)
 
